@@ -1,19 +1,26 @@
 import getFilmByName from 'components/API/getFilmByName';
-import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import { Link, useLocation, useSearchParams } from 'react-router-dom';
 
 const MoviesPage = () => {
   const [films, setFilms] = useState([]);
   const [queryName, setQueryName] = useState('');
+  const [searchParams, setSearchParams] = useSearchParams();
+  const query = searchParams.get('query') ?? '';
+
+  const location = useLocation();
 
   const handleChange = e => {
     setQueryName(e.currentTarget.value.trim());
   };
-
+  useEffect(() => {
+    queryName !== '' && setQueryName(query);
+  }, []);
   const handleSubmit = e => {
     e.preventDefault();
+    setSearchParams({ query: queryName });
     if (queryName === '') {
-      return alert('Enter movie title!')
+      return alert('Enter movie title!');
     }
     getFilmByName(queryName)
       .then(response => {
@@ -31,7 +38,9 @@ const MoviesPage = () => {
         {films &&
           films.map(film => (
             <li key={film.id}>
-              <Link to={`${film.id}`}>{film.title}</Link>
+              <Link to={`${film.id}`} state={location}>
+                {film.title}
+              </Link>
             </li>
           ))}
       </ul>
