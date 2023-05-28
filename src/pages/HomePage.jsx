@@ -1,6 +1,7 @@
 import getPopularFilms from 'components/API/API';
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+import { ListItem } from './HomePage.styled';
 const HomePage = () => {
   const [films, setFilms] = useState(null);
 
@@ -16,9 +17,9 @@ const HomePage = () => {
       <ul>
         {films &&
           films.map(film => (
-            <li key={film.id}>
+            <ListItem key={film.id}>
               <Link to={`movies/${film.id}`}>{film.title}</Link>
-            </li>
+            </ListItem>
           ))}
       </ul>
     </>
