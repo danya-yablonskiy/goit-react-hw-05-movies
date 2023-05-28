@@ -21,7 +21,7 @@ const MoviesPage = () => {
         })
         .catch(err => console.error(err));
     }
-  }, []);
+  }, [query, queryName]);
 
   const handleSubmit = e => {
     e.preventDefault();
