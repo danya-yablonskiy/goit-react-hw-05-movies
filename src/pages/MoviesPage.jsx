@@ -3,12 +3,11 @@ import { useEffect, useState } from 'react';
 import { Link, useLocation, useSearchParams } from 'react-router-dom';
 import { ListItem } from './HomePage.styled';
 const MoviesPage = () => {
+
   const [searchParams, setSearchParams] = useSearchParams();
-
   const query = searchParams.get('query') ?? '';
-  console.log(query);
-  const [queryName, setQueryName] = useState(query);
 
+  const [queryName, setQueryName] = useState(query);
   const [films, setFilms] = useState([]);
 
   const location = useLocation();
@@ -23,12 +22,12 @@ const MoviesPage = () => {
     }
   }, [queryName]);
 
-  const handleSubmit = e => {
+const handleSubmit = e => {
     e.preventDefault();
     setQueryName(e.currentTarget.elements.input.value);
-
-    setSearchParams({ query: queryName });
+    setSearchParams({ query: e.currentTarget.elements.input.value });
   };
+
   return (
     <div>
       <form onSubmit={handleSubmit}>
