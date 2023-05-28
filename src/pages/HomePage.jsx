@@ -9,7 +9,7 @@ const HomePage = () => {
     getPopularFilms()
       .then(response => setFilms(response.results))
       .catch(err => console.error(err));
-  }, []);
+  }, []); 
 
   return (
     <>
