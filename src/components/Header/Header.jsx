@@ -1,18 +1,24 @@
 import { NavLink } from "react-router-dom"
-
+import { List, ListItem, StyledLink, Container } from './Header.styled';
 const Header = () => {
-    return (
+  return (
+    <Container>
       <nav>
-        <ul>
+        <List>
           <li>
-            <NavLink to={'/'}>Home</NavLink>
+            <StyledLink to={'/'} >
+              Home
+            </StyledLink>
           </li>
-          <li>
-            <NavLink to={'/movies'}>Movies</NavLink>
-          </li>
-        </ul>
+          <ListItem>
+            <StyledLink to={'/movies'} >
+              Movies
+            </StyledLink>
+          </ListItem>
+        </List>
       </nav>
-    );
+    </Container>
+  );
 }
 
 export default Header
