@@ -3,21 +3,29 @@ import { useEffect, useState } from 'react';
 import { Link, useLocation, useSearchParams } from 'react-router-dom';
 
 const MoviesPage = () => {
-  const [films, setFilms] = useState([]);
-  const [queryName, setQueryName] = useState('');
   const [searchParams, setSearchParams] = useSearchParams();
+  console.log(searchParams);
   const query = searchParams.get('query') ?? '';
+  console.log(query);
+  const [queryName, setQueryName] = useState(query);
+
+  const [films, setFilms] = useState([]);
 
   const location = useLocation();
 
-  const handleChange = e => {
-    setQueryName(e.currentTarget.value.trim());
-  };
   useEffect(() => {
-    queryName !== '' && setQueryName(query);
+    if (query !== '') {
+      getFilmByName(queryName)
+        .then(response => {
+          setFilms(response.results);
+        })
+        .catch(err => console.error(err));
+    }
   }, []);
+
   const handleSubmit = e => {
     e.preventDefault();
+    setQueryName(e.currentTarget.elements.input.value);
     setSearchParams({ query: queryName });
     if (queryName === '') {
       return alert('Enter movie title!');
@@ -31,14 +39,14 @@ const MoviesPage = () => {
   return (
     <div>
       <form onSubmit={handleSubmit}>
-        <input type="text" onChange={handleChange} value={queryName} />
+        <input name="input" type="text" />
         <button type="submit">Search</button>
       </form>
       <ul>
         {films &&
           films.map(film => (
             <li key={film.id}>
-              <Link to={`${film.id}`} state={location}>
+              <Link to={`${film.id}`} state={{ from: location }}>
                 {film.title}
               </Link>
             </li>
