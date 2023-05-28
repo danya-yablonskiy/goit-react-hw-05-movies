@@ -3,7 +3,6 @@ import { useEffect, useState } from 'react';
 import { Link, useLocation, useSearchParams } from 'react-router-dom';
 import { ListItem } from './HomePage.styled';
 const MoviesPage = () => {
-
   const [searchParams, setSearchParams] = useSearchParams();
   const query = searchParams.get('query') ?? '';
 
@@ -22,14 +21,17 @@ const MoviesPage = () => {
     }
   }, [queryName]);
 
-  useEffect(() => { 
-    !query && setSearchParams({})
-  },[query, setSearchParams])
+  useEffect(() => {
+    !query && setSearchParams({});
+  }, [query, setSearchParams]);
 
-const handleSubmit = e => {
+  const handleSubmit = e => {
     e.preventDefault();
-    setQueryName(e.currentTarget.elements.input.value.trim());
-    setSearchParams({ query: e.currentTarget.elements.input.value.trim() });
+    const inputValue = e.currentTarget.elements.input.value.trim();
+    if (inputValue) {
+      setQueryName(inputValue);
+      setSearchParams({ query: inputValue });
+    }
   };
 
   return (
