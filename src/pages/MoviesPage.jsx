@@ -22,10 +22,14 @@ const MoviesPage = () => {
     }
   }, [queryName]);
 
+  useEffect(() => { 
+    !query && setSearchParams({})
+  },[query, setSearchParams])
+
 const handleSubmit = e => {
     e.preventDefault();
-    setQueryName(e.currentTarget.elements.input.value);
-    setSearchParams({ query: e.currentTarget.elements.input.value });
+    setQueryName(e.currentTarget.elements.input.value.trim());
+    setSearchParams({ query: e.currentTarget.elements.input.value.trim() });
   };
 
   return (
