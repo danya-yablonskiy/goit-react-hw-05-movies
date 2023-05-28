@@ -1,6 +1,6 @@
 import { Link, useParams, Outlet, useLocation } from 'react-router-dom';
 import getOneFilm from 'components/API/getOneFilm';
-import { useEffect, useState } from 'react';
+import { Suspense, useEffect, useRef, useState } from 'react';
 
 const FilmDetails = () => {
   const [details, setDetails] = useState([]);
@@ -10,9 +10,12 @@ const FilmDetails = () => {
       .then(response => setDetails(response))
       .catch(err => console.error(err));
   }, [filmId]);
+  const location = useLocation();
+  const backLinkHref = useRef(location.state?.from ?? '/');
+
   return (
     <div>
-      <Link to={'/movies'}>Back</Link>
+      <Link to={backLinkHref.current}>Back</Link>
       <div>
         <img
           src={
@@ -39,7 +42,9 @@ const FilmDetails = () => {
         <br />
         <Link to={'rewievs'}>Rewievs</Link>
       </div>
-      <Outlet />
+      <Suspense>
+        <Outlet />
+      </Suspense>
     </div>
   );
 };
